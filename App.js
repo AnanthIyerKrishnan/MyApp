@@ -17,6 +17,14 @@ import SixthProject from './projects/project6/sixthproject';
 import SeventhProject from './projects/project7/seventhproject';
 import EighthProject from './projects/project8/eighthproject';
 import NinthProject from './projects/project9/ninthproject';
+import TenthProject from './projects/project10/tenthproject';
+import Eleventhproject from './projects/project11/eleventhproject';
+import TwelthProject from './projects/project12/twelthproject';
+import ThirteenthProject from './projects/project13/thirteenthproject';
+import FourteenthProject from './projects/project14/fourteenthproject';
+import FifteenthProject from './projects/project15/fifteenthproject';
+import SixteenthProject from './projects/project16/sixteenthproject';
+import SeventeenthProject from './projects/project17/seventeenthproject';
 
 const Stack = createStackNavigator();
 
@@ -51,6 +59,14 @@ function HomeScreen({ route, navigation }) {
         <Button title="7. Interactive Button Demo" onPress={() => navigation.navigate('SeventhProject')} />
         <Button title="8. Photo Sharing App" onPress={() => navigation.navigate('EighthProject')} />
         <Button title="9. Weather App" onPress={() => navigation.navigate('NinthProject')} />
+        <Button title="10. Counter App" onPress={() => navigation.navigate('TenthProject')} />
+        <Button title="11. Toogle Theme App" onPress={() => navigation.navigate('Eleventhproject')} />
+        <Button title="12. To Do List" onPress={() => navigation.navigate('TwelthProject')} />
+        <Button title="13. Dice Roller" onPress={() => navigation.navigate('ThirteenthProject')} />
+        <Button title="14. Digital Clock" onPress={() => navigation.navigate('FourteenthProject')} />
+        <Button title="15. BMI Calculator" onPress={() => navigation.navigate('FifteenthProject')} />
+        <Button title="16. Flip a Coin" onPress={() => navigation.navigate('SixteenthProject')} />
+        <Button title="17. Color Changer" onPress={() => navigation.navigate('SeventeenthProject')} />
       </View>
 
       {/* Logout button at the bottom */}
@@ -78,6 +94,14 @@ export default function App() {
         <Stack.Screen name="SeventhProject" component={SeventhProject} />
         <Stack.Screen name="EighthProject" component={EighthProject} />
         <Stack.Screen name="NinthProject" component={NinthProject} />
+        <Stack.Screen name="TenthProject" component={TenthProject} />
+        <Stack.Screen name="Eleventhproject" component={Eleventhproject} />
+        <Stack.Screen name="TwelthProject" component={TwelthProject} />
+        <Stack.Screen name="ThirteenthProject" component={ThirteenthProject} />
+        <Stack.Screen name="FourteenthProject" component={FourteenthProject} />
+        <Stack.Screen name="FifteenthProject" component={FifteenthProject} />
+        <Stack.Screen name="SixteenthProject" component={SixteenthProject} />
+        <Stack.Screen name="SeventeenthProject" component={SeventeenthProject} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -88,13 +112,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'stretch',
-    padding: 20,
+    padding: 10,
     backgroundColor: '#f5f5f5',
   },
   text: {
     fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 120,
+    marginBottom: 50,
     color: '#333',
     textAlign: 'center',
   },
