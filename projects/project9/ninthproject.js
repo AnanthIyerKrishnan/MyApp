@@ -28,17 +28,27 @@ class WeatherForecast extends Component {
 
 
     let content = null;
-    if (this.state.forecast !== null){
-        
+    if (this.state.forecast !== null) {
       content = (
         <Forecast 
             main={this.state.forecast.main}
             description={this.state.forecast.description}
             temp={this.state.forecast.temp}
+            feels_like={this.state.forecast.feels_like}
+            temp_min={this.state.forecast.temp_min}
+            temp_max={this.state.forecast.temp_max}
+            humidity={this.state.forecast.humidity}
+            wind_speed={this.state.forecast.wind_speed}
+            wind_deg={this.state.forecast.wind_deg}
+            pressure={this.state.forecast.pressure}
+            visibility={this.state.forecast.visibility}
+            sunrise={this.state.forecast.sunrise}
+            sunset={this.state.forecast.sunset}
+            city={this.state.forecast.city}
+            country={this.state.forecast.country}
+            icon={this.state.forecast.icon}
         />
-
       );
-
     }
       
 
@@ -53,7 +63,7 @@ class WeatherForecast extends Component {
           <View style={styles.overlay}>
             <View style={styles.row}>
               <Text style={styles.mainText}>
-                Current Weather For:
+                Current Weather For:{'\n'}
               </Text>
               <View style={styles.zipContainer}>
                 <TextInput
@@ -101,7 +111,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",  // Centers the image
     marginBottom: 10, // Adds space below
   },
-  zipCode: { flex: 1, width: 60, height: baseFontSize },
+  zipCode: { flex: 1, width: 100, height: baseFontSize },
   mainText: { fontSize: baseFontSize , color: "#FFFAF0" }
 });
 
