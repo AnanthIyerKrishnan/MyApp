@@ -3,6 +3,7 @@
     "name": "MyApp",
     "slug": "MyApp",
     "version": "1.0.0",
+    "scheme": "myapp",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -26,6 +27,10 @@
     },
     "plugins": [
       "expo-secure-store"
-    ]
+    ],
+    "extra": {
+      "auth0Domain": "dev-y5kd3vhvwvyydx3h.us.auth0.com",
+      "auth0ClientId": "UsM2ljCPGZuhq4ThMqKJMldR50wtDE7M"
+    }
   }
 }
