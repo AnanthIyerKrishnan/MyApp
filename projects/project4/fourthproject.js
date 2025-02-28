@@ -1,78 +1,71 @@
-import React, { useState } from "react";
-import { Text, View, SectionList, TouchableOpacity } from 'react-native';
-import * as DocumentPicker from "expo-document-picker";
-import * as FileSystem from "expo-file-system";
+import React, { useState, useEffect } from "react";
+import { Text, View, SectionList, ActivityIndicator, Alert } from "react-native";
 
-export default StatesApp = () => {
-  // State to store the sectioned country list
+export default function StatesApp() {
   const [sections, setSections] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const pickDocument = async () => {
-    try {
-      // Open document picker to select a text file
-      const result = await DocumentPicker.getDocumentAsync({
-        type: "text/plain", // Allows only text files
-      });
+  // Hardcoded GitHub raw file URL
+  const githubUrl = "https://raw.githubusercontent.com/AnanthIyerKrishnan/CIS340/main/Cities.txt";
 
-      if (result.canceled) return; // Exit if user cancels file selection
-      
-      const fileUri = result.assets[0].uri;
-      // Read content of the selected file
-      const fileContent = await FileSystem.readAsStringAsync(fileUri);
-      
-      // Split file content by new lines, trim whitespace, and remove empty entries
-      let countryList = fileContent.split('\n').map(item => item.trim()).filter(item => item);
-      // Sort the country list alphabetically
-      countryList.sort((a, b) => a.localeCompare(b));
-      
-      // Group countries by their first letter
-      const groupedCountries = countryList.reduce((acc, country) => {
-        const firstLetter = country[0].toUpperCase(); // Extract first letter and convert to uppercase
-        if (!acc[firstLetter]) {
-          acc[firstLetter] = []; // Initialize array if not exists
-        }
-        acc[firstLetter].push(country); // Add country to the respective letter group
-        return acc;
-      }, {});
-      
-      // Convert grouped data into SectionList format
-      const sectionedData = Object.keys(groupedCountries).sort().map(letter => ({
-        title: letter,
-        data: groupedCountries[letter],
-      }));
-      
-      setSections(sectionedData); // Update state with the new sectioned data
-    } catch (error) {
-      console.error("Error picking document:", error);
-    }
-  };
+  useEffect(() => {
+    const fetchFileFromGitHub = async () => {
+      try {
+        // Fetch file content from GitHub
+        const response = await fetch(githubUrl);
+        if (!response.ok) throw new Error("Failed to fetch file");
+
+        const fileContent = await response.text(); // Get file content as text
+
+        // Process file content
+        let cityList = fileContent.split("\n").map(item => item.trim()).filter(item => item);
+        cityList.sort((a, b) => a.localeCompare(b));
+
+        // Group cities by their first letter
+        const groupedCities = cityList.reduce((acc, city) => {
+          const firstLetter = city[0].toUpperCase();
+          if (!acc[firstLetter]) acc[firstLetter] = [];
+          acc[firstLetter].push(city);
+          return acc;
+        }, {});
+
+        // Convert grouped data into SectionList format
+        const sectionedData = Object.keys(groupedCities).sort().map(letter => ({
+          title: letter,
+          data: groupedCities[letter],
+        }));
+
+        setSections(sectionedData);
+      } catch (error) {
+        console.error("Error fetching file:", error);
+        Alert.alert("Error", "Could not fetch the file. Check the URL and try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFileFromGitHub();
+  }, []);
 
   return (
-    <View style={{ flex: 1, paddingTop: 22 }}>
-      {/* Button to trigger file selection */}
-      <TouchableOpacity
-        onPress={pickDocument}
-        style={{ backgroundColor: "blue", padding: 10, borderRadius: 5, marginBottom: 10 }}
-      >
-        <Text style={{ color: "white", textAlign: "center" }}>Upload Country List</Text>
-      </TouchableOpacity>
-      
-      {/* Display sorted countries in a sectioned list */}
-      <SectionList
-        sections={sections} // Data source for SectionList
-        renderItem={({ item }) => (
-          <Text style={{ padding: 10, fontSize: 20, height: 44 }}>{item}</Text>
-        )} // Render each country name
-        renderSectionHeader={({ section }) => (
-          <Text style={{
-            paddingTop: 4, paddingLeft: 10,
-            paddingRight: 10, paddingBottom: 4,
-            fontSize: 14, fontWeight: 'bold',
-            backgroundColor: '#9FA8DF',
-          }}>{section.title}</Text> // Render section header with first letter
-        )}
-        keyExtractor={(item, index) => index.toString()} // Unique key for each item
-      />
+    <View style={{ flex: 1, paddingTop: 22, paddingHorizontal: 10 }}>
+      {loading ? (
+        <ActivityIndicator size="large" color="blue" />
+      ) : (
+        <SectionList
+          sections={sections}
+          renderItem={({ item }) => (
+            <Text style={{ padding: 10, fontSize: 20 }}>{item}</Text>
+          )}
+          renderSectionHeader={({ section }) => (
+            <Text style={{
+              padding: 5, fontSize: 16, fontWeight: "bold",
+              backgroundColor: "#9FA8DF", color: "white"
+            }}>{section.title}</Text>
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )}
     </View>
   );
-};
+}
